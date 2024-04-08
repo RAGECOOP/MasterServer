@@ -1,13 +1,13 @@
 use serde::Deserialize;
 
 #[derive(Deserialize)]
-pub(crate) struct Data {
-  pub server: Server
+pub struct Data {
+  pub server: Server,
 }
 
 #[derive(Deserialize)]
-pub(crate) struct Server {
+pub struct Server {
   pub port: u16,
   pub workers: u16,
-  pub address: String
+  pub address: String,
 }
