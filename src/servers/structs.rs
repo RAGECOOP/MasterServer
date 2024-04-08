@@ -1,11 +1,8 @@
+use serde::{Deserialize, Serialize};
 use serde_aux::prelude::*;
-use serde::{
-  Serialize,
-  Deserialize
-};
 
 #[derive(Serialize, Deserialize, Clone)]
-pub(crate) struct Server {
+pub struct Server {
   pub address: String,
   #[serde(deserialize_with = "deserialize_number_from_string")]
   pub port: u16,
@@ -13,7 +10,10 @@ pub(crate) struct Server {
   pub version: String,
   #[serde(deserialize_with = "deserialize_number_from_string")]
   pub players: u16,
-  #[serde(rename = "maxPlayers", deserialize_with = "deserialize_number_from_string")]
+  #[serde(
+    rename = "maxPlayers",
+    deserialize_with = "deserialize_number_from_string"
+  )]
   pub max_players: u16,
   pub country: String,
   pub description: String,
@@ -35,7 +35,7 @@ pub(crate) struct Server {
   pub public_key_exponent: String,
   // we add these following fields ourselves
   #[serde(skip)]
-  pub last_update: u64
+  pub last_update: u64,
 }
 
 impl Server {

@@ -1,11 +1,9 @@
-use actix_web::{
-  web,
-  Responder,
-  HttpResponse,
-  HttpRequest
-};
+use actix_web::{web, HttpRequest, HttpResponse, Responder};
 
-pub(crate) async fn server(req: HttpRequest, mut info: web::Json<crate::servers::structs::Server>) -> impl Responder {
+pub async fn server(
+  req: HttpRequest,
+  mut info: web::Json<crate::servers::structs::Server>,
+) -> impl Responder {
   // Get the real IP address with Cloudflare
   match req.headers().get("cf-connecting-ip") {
     Some(r) => {
@@ -16,7 +14,7 @@ pub(crate) async fn server(req: HttpRequest, mut info: web::Json<crate::servers:
       if addr.parse::<std::net::Ipv4Addr>().is_ok() {
         info.address = addr.to_string();
       }
-    },
+    }
     None => {
       return HttpResponse::InternalServerError().body("Missing header!");
     }
@@ -70,6 +68,6 @@ fn check_length(name: &str, length: usize) -> Option<&str> {
     "country" if length > 3 => Some("Your `country` is too long!"),
     "public_key_modulus" if length > 344 => Some("Your `public_key_modulus` is too long!"),
     "public_key_exponent" if length > 16 => Some("Your `public_key_exponent` is too long!"),
-    _ => None
+    _ => None,
   }
 }
